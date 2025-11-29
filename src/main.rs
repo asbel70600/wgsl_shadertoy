@@ -13,9 +13,15 @@
     reason = "i want to do it as it says"
 )]
 
+use app::App;
 use core::error::Error;
 use tracing::{Level, span};
 use winit::event_loop::EventLoop;
+
+pub mod app;
+pub mod config;
+pub mod gpupipeline;
+pub mod model;
 
 fn main() -> Result<(), Box<dyn Error>> {
     tracing_subscriber::fmt::init();
@@ -23,6 +29,9 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let event_loop = EventLoop::new().unwrap();
     event_loop.set_control_flow(winit::event_loop::ControlFlow::Poll);
+
+    let mut app = App { componet: None };
+    let _ = event_loop.run_app(&mut app);
 
     span.exit();
     Ok(())
